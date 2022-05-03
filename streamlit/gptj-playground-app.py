@@ -44,8 +44,8 @@ prompt = st.text_area("Enter your prompt here:")
 if st.button("Run"):
     params = {"return_full_text": True,
               "temperature": temp,
-              "min_length": len(prompt) / 4 + length - 5,
-              "max_length": len(prompt) / 4 + length + 5,
+              "min_length": len(prompt) // 4 + length - 5,
+              "max_length": len(prompt) // 4 + length + 5,
               "do_sample": True,
               "repetition_penalty": rep_penalty,
               "top_k": 20,

@@ -1,32 +1,26 @@
 import streamlit as st
-import boto3
-import json
+from utils import generate_text
 
-# Create a low-level client representing Amazon SageMaker Runtime
-session = boto3.Session()
-sagemaker_runtime = session.client('sagemaker-runtime', region_name="us-east-1")
+# Page configuration
+st.set_page_config(page_title='My GPT-J Playground', layout="centered")
 
-# The name of the endpoint. The name must be unique within an AWS Region in your AWS account. 
-endpoint_name='sm-endpoint-gpt-j-6b'
-
-
-def generate_text(prompt):
-    payload = {"inputs": prompt}
-
-    response = sagemaker_runtime.invoke_endpoint(
-                                EndpointName=endpoint_name, 
-                                ContentType='application/json',
-                                Body=json.dumps(payload)
-                                )
-                                
-    result = json.loads(response['Body'].read().decode())
-    text = result[0]['generated_text']
-    return text
-
-
+# Page header
 st.header("My very own GPT-J Playground")
+
+# Sidebar
+st.sidebar.title("GPT-J Parameters")
+length_choice = st.sidebar.select_slider("Length", options=['very short', 'short', 'medium', 'long', 'very long'],
+                                         value='medium',
+                                         help="Length of the model response")
+temp = st.sidebar.slider("Temperature", min_value=0.0, max_value=1.5, value=0.6,
+                         help="The creativity of the model")
+rep_penalty = st.sidebar.slider("Repetition penalty", min_value=0.9, max_value=2.0, value=1.1,
+                                help="Penalises the model for repition")
+
+# Prompt text box
 prompt = st.text_area("Enter your prompt here:")
 
 if st.button("Run"):
     generated_text = generate_text(prompt)
+    st.subheader("Model response:")
     st.write(generated_text)

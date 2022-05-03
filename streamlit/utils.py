@@ -9,9 +9,9 @@ sagemaker_runtime = session.client('sagemaker-runtime', region_name="us-east-1")
 endpoint_name = 'sm-endpoint-gpt-j-6b'
 
 
-def generate_text(prompt):
+def generate_text(prompt, params):
     try:
-        payload = {"inputs": prompt}
+        payload = {"inputs": prompt, "parameters": params}
 
         response = sagemaker_runtime.invoke_endpoint(
             EndpointName=endpoint_name,

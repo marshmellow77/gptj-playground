@@ -50,6 +50,7 @@ if st.button("Run"):
               "repetition_penalty": rep_penalty,
               "top_k": 20,
               }
-    generated_text = generate_text(prompt)
+
+    generated_text = generate_text(prompt, params)
     st.subheader("Model response:")
-    st.write(generated_text, params)
+    st.write(generated_text)

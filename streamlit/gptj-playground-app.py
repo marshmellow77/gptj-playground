@@ -53,4 +53,4 @@ if st.button("Run"):
 
     generated_text = generate_text(prompt, params)
     st.subheader("Model response:")
-    st.write(generated_text)
+    st.text(generated_text)
